@@ -19,9 +19,10 @@ export default function TicTacToe() {
   const [data, setData] = useState(initialData)
   const [count, setCount] = useState(0)
   const [lock, setLock] = useState(false)
+  const [winner, setWinner] = useState(null)
 
   const toggle = (index) => {
-    if (lock || index < 0 || index >= 9 || data[index] !== '') {
+    if (lock || data[index] !== '') {
       return
     }
 
@@ -33,10 +34,6 @@ export default function TicTacToe() {
   }
 
   const checkWin = (currentData) => {
-    if (!currentData) {
-      return
-    }
-
     for (let pattern of winPatterns) {
       const [a, b, c] = pattern
       if (
@@ -45,24 +42,36 @@ export default function TicTacToe() {
         currentData[a] === currentData[c]
       ) {
         setLock(true)
+        setWinner(currentData[a])
         break
       }
     }
   }
 
   const resetGame = () => {
-    setData(initialData.slice())
+    setData(initialData)
     setCount(0)
     setLock(false)
+    setWinner(null)
   }
 
   return (
     <div className="container">
-      <h1 className="title">Tic Tac Toe Game</h1>
+      {winner ? (
+        <h1 className="win-title">
+          <img
+            src={winner === 'X' ? cross_icon : circle_icon}
+            alt={winner === 'X' ? 'cross' : 'circle'}
+          />{' '}
+          WINS!
+        </h1>
+      ) : (
+        <h1 className="title">Tic Tac Toe Game</h1>
+      )}
       <div className="board">
-        {Array.from({ length: 3 }, (_, row) => (
+        {[0, 1, 2].map((row) => (
           <div key={row} className="row">
-            {Array.from({ length: 3 }, (_, col) => {
+            {[0, 1, 2].map((col) => {
               const index = row * 3 + col
               return (
                 <div

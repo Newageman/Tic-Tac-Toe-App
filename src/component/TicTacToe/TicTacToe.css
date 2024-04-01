@@ -11,6 +11,19 @@
   color: #26ffcb;
 }
 
+.win-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  font-size: 60px;
+  color: #ffffff;
+}
+
+.win-title img {
+  margin-right: 20px;
+}
+
 .reset {
   width: 250px;
   height: 100px;
